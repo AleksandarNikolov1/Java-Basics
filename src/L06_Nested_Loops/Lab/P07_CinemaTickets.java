@@ -4,66 +4,59 @@ import java.util.Scanner;
 
 public class P07_CinemaTickets {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
-        int standardTicketsCounter = 0;
-        int studentTicketsCounter = 0;
-        int kidTicketsCounter = 0;
+        int studentCount = 0;
+        int standardCount = 0;
+        int kidCount = 0;
 
-        int totalTickets = 0;
+        int counterTotal = 0;
 
-        boolean isFinished = false;
-
-        String movieName = sc.nextLine();
-
+        String movieName = scanner.nextLine();
         while (!(movieName.equals("Finish"))) {
+            int freeSpaces = Integer.parseInt(scanner.nextLine());
 
-            int freeSeats = Integer.parseInt(sc.nextLine());
-            String ticketType = sc.nextLine();
+            counterTotal = 0;
 
-            int totalTicketsCounter = 0;
 
-            while (freeSeats -- > 0) {
-
-                switch (ticketType) {
-                    case "standard":
-                        standardTicketsCounter++;
-                        break;
-                    case "student":
-                        studentTicketsCounter++;
-                        break;
-                    case "kid":
-                        kidTicketsCounter++;
-                        break;
+            for (int i = 0; i < freeSpaces; i++) {
+                String type = scanner.nextLine();
+                if (type.equals("End")) {
+                    break;
                 }
 
-                totalTicketsCounter++;
-
-                ticketType = sc.nextLine();
-
-                if (ticketType.equals("End"))
-                    break;
+                counterTotal++;
+                switch (type) {
+                    case "student":
+                        studentCount++;
+                        break;
+                    case "standard":
+                        standardCount++;
+                        break;
+                    default:
+                        kidCount++;
+                        break;
+                }
             }
 
-            totalTickets += totalTicketsCounter;
 
-            double percentPerFilm = (double) totalTicketsCounter / (double) freeSeats * 100;
+            double hall = (double) counterTotal / freeSpaces * 100;
+            System.out.printf("%s - %.2f%% full.%n", movieName, hall);
 
-            System.out.printf("%s - %.2f%% full.%n", movieName, percentPerFilm);
-
-            movieName = sc.nextLine();
+            movieName = scanner.nextLine();
         }
 
-        System.out.printf("Total tickets: %d%n", totalTickets);
+        counterTotal = studentCount + standardCount + kidCount;
+        System.out.printf("Total tickets: %d%n", counterTotal);
 
-        double studentPercent = (100.0 / totalTickets ) * studentTicketsCounter;
+        double studentPercent = (100.0 / counterTotal ) * studentCount;
         System.out.printf("%.2f%% student tickets.%n", studentPercent);
 
-        double standardPercent = (100.0 / totalTickets) * standardTicketsCounter;
+        double standardPercent = (100.0 / counterTotal) * standardCount;
         System.out.printf("%.2f%% standard tickets.%n", standardPercent);
 
-        double kidPercent = (100.0 / totalTickets) * kidTicketsCounter;
+        double kidPercent = (100.0 / counterTotal) * kidCount;
         System.out.printf("%.2f%% kids tickets.", kidPercent);
-    }
 
+    }
 }
